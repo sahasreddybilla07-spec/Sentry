@@ -2,8 +2,8 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import { DEMO_INCIDENT } from './demoData.js';
 
 const INITIAL_STEPS = ['','','','',''];
-const INITIAL_GATES = ['QUEUED','QUEUED','QUEUED'];
-const GATE_NAMES = ['Semgrep Scan','Sigstore Sign','OPA Check'];
+const INITIAL_GATES = ['✓ VERIFIED','✓ VERIFIED','✓ VERIFIED','✓ VERIFIED'];
+const GATE_NAMES = ['Semgrep AST Engine','Regression Tests: 6/6 Passed','Sigstore Sign','OPA Check'];
 
 export default function RemediationWorkspace(){
   const [progress,setProgress]=useState(0),[steps,setSteps]=useState(INITIAL_STEPS),[gates,setGates]=useState(INITIAL_GATES);
@@ -21,12 +21,13 @@ export default function RemediationWorkspace(){
     later(4900,()=>setSteps(['done','done','done','done','done']));
     later(5200,()=>setPr(true));
     later(6200,()=>setRemoved(1));later(6700,()=>setRemoved(2));
-    later(8300,()=>{setBeam(true);setRemoved(3)});
-    later(8700,()=>setAdded(1));later(9500,()=>setAdded(2));later(10300,()=>setNote(true));
-    later(10900,()=>setGates(['RUNNING...','QUEUED','QUEUED']));
-    later(11900,()=>setGates(['✓ VERIFIED','RUNNING...','QUEUED']));
-    later(12900,()=>setGates(['✓ VERIFIED','✓ VERIFIED','RUNNING...']));
-    later(13900,()=>{setGates(['✓ VERIFIED','✓ VERIFIED','✓ VERIFIED']);setComplete(true)});
+    later(8300,()=>{setBeam(true);setRemoved(2)});
+    later(8700,()=>setAdded(1));later(9500,()=>setAdded(2));later(10300,()=>{setAdded(5);setNote(true)});
+    later(10900,()=>setGates(['RUNNING...','QUEUED','QUEUED','QUEUED']));
+    later(11900,()=>setGates(['✓ VERIFIED','RUNNING...','QUEUED','QUEUED']));
+    later(12900,()=>setGates(['✓ VERIFIED','✓ VERIFIED','RUNNING...','QUEUED']));
+    later(13900,()=>setGates(['✓ VERIFIED','✓ VERIFIED','✓ VERIFIED','RUNNING...']));
+    later(14900,()=>{setGates(['✓ VERIFIED','✓ VERIFIED','✓ VERIFIED','✓ VERIFIED']);setComplete(true)});
     later(15200,()=>setFinalCopy(true));
   },[later,reset]);
   useEffect(()=>clear,[clear]);
@@ -38,7 +39,7 @@ export default function RemediationWorkspace(){
       <section className={`remed-stage ${complete?'passed':''}`}>
         <div className={`remed-layer ${pr?'hidden':''}`}>
           <div className="remed-eyebrow">△ &nbsp; SYNTHETIC DEMO · NOT A VERIFIED REPOSITORY FINDING</div>
-          <div className="remed-vuln"><h2>CVE-2026-X: Unauthenticated API Exposure on /api/v1/ship-tracking</h2><div className="remed-chips"><span className="critical">Severity <b>{DEMO_INCIDENT.severity}</b></span><span>Target <b>World Monitor · DEMO</b></span><span className="auto">Status <b>Illustrative patch</b></span></div></div>
+          <div className="remed-vuln"><h2>CVE-2026-X: Stored XSS via Unsafe URI Schemes in Advisory Links</h2><div className="remed-chips"><span className="critical">Severity <b>HIGH · CVSS 8.5</b></span><span>Target <b>src/components/SecurityAdvisoriesPanel.ts</b></span><span className="auto">Status <b>Illustrative patch</b></span></div></div>
           <div className="remed-progress-line"><span><em>Semgrep AST Engine</em> — Synthesizing Patch...</span><b>{progress}%</b></div><div className="remed-progress"><i style={{width:`${progress}%`}}/></div>
           <div className="remed-steps">{['Vulnerability Located','Data Flow Analyzed','Patch Being Synthesized','Security Validation','Pull Request Generation'].map((x,i)=><span className={steps[i]} key={x}><i>{steps[i]==='done'?'✓':steps[i]==='act'?'●':'○'}</i>{x}</span>)}</div>
         </div>
@@ -49,19 +50,16 @@ export default function RemediationWorkspace(){
         </div>
       </section>
       <section className="remed-diff">
-        <div className="diff-head"><b>Illustrative route patch · not upstream source</b><span>+1 &nbsp; −1</span><small>Example patch</small></div><div className="diff-hunk">@@ /api/v1/ship-tracking · add auth and rate limiting</div>
+        <div className="diff-head"><b>SecurityAdvisoriesPanel.ts · sanitize advisory links</b><span>+5 &nbsp; −2</span><small>Example patch</small></div><div className="diff-hunk">@@ src/components/SecurityAdvisoriesPanel.ts · validate advisory URI schemes</div>
         <div className="diff-code">
-          <div className="diff-row context"><span>38</span><span>38</span><b></b><code>router.<em>get</em>(<mark>'/ship-tracking'</mark>,</code></div>
-          <div className="diff-row context"><span>39</span><span>39</span><b></b><code>  trackingController.getShipData);</code></div><div className="diff-gap"/>
-          {[['40',"router.get('/ship-tracking', trackingController.getShipData);"]].map(([n,t],i)=><div key={n} className={`diff-row removed ${removed>i?'show':''}`}><span>{n}</span><span></span><b>−</b><code>{t}</code></div>)}
-          {[['40',"router.get('/ship-tracking', requireAuth, rateLimiter({ max: 50 }), trackingController.getShipData);"]].map(([n,t],i)=><div key={n} className={`diff-row inserted ${added>i?'show':''}`}><span></span><span>{n}</span><b>+</b><code>{t}</code></div>)}
-          <div className="diff-gap"/><div className="diff-row context"><span>41</span><span>41</span><b></b><code><i>// synthetic World Monitor remediation example</i></code></div>
-          <div className={`diff-note ${note?'show':''}`}><b>✓ Authentication and rate limits added</b><span>Illustrative diff only · no upstream file changed</span></div>{beam&&<div className="diff-beam"/>}
+          {[['101'," import { escapeHtml, unsafeRawHtml } from '@/utils/sanitize';"],['102',' <a href="${escapeHtml(a.link)}" target="_blank" rel="noopener" class="sa-title">${escapeHtml(a.title)}</a>']].map(([n,t],i)=><div key={n} className={`diff-row removed ${removed>i?'show':''}`}><span>{n}</span><span></span><b>−</b><code>{t}</code></div>)}
+          {[['101'," import { escapeHtml, safeUrlAttr, unsafeRawHtml } from '@/utils/sanitize';"],['102',' const href = safeUrlAttr(a.link).toString();'],['103',' const titleMarkup = href'],['104','   ? `<a href="${href}" target="_blank" rel="noopener" class="sa-title">${escapeHtml(a.title)}</a>`'],['105','   : `<span class="sa-title sa-title-plain">${escapeHtml(a.title)}</span>`;']].map(([n,t],i)=><div key={n} className={`diff-row inserted ${added>i?'show':''}`}><span></span><span>{n}</span><b>+</b><code>{t}</code></div>)}
+          <div className={`diff-note ${note?'show':''}`}><b>✓ Unsafe URI schemes rejected before rendering</b><span>Illustrative diff only · no upstream file changed</span></div>{beam&&<div className="diff-beam"/>}
         </div>
       </section>
       <section className={`remed-gates ${complete?'ok':''}`}>
         <div className="gates-heading">AUTOMATED SECURITY GATES <span>Illustrative checks · no connected production CI/CD</span></div>
-        <div className="gate-pipeline">{GATE_NAMES.map((name,i)=><React.Fragment key={name}><div className={`remed-gate ${statuses[i]}`}><i>{statuses[i]==='done'?'✓':statuses[i]==='run'?'◌':i===0?'⌕':i===1?'◇':'▤'}</i><div><b>{name}</b><small>{gates[i]}</small></div></div>{i<2&&<span className={`gate-arrow ${statuses[i]==='done'?'on':''}`}>→</span>}</React.Fragment>)}</div>
+        <div className="gate-pipeline">{GATE_NAMES.map((name,i)=><React.Fragment key={name}><div className={`remed-gate ${statuses[i]}`}><i>{statuses[i]==='done'?'✓':statuses[i]==='run'?'◌':i===0?'⌕':i===1?'◇':'▤'}</i><div><b>{name}</b><small>{gates[i]}</small></div></div>{i<GATE_NAMES.length-1&&<span className={`gate-arrow ${statuses[i]==='done'?'on':''}`}>→</span>}</React.Fragment>)}</div>
         <div className={`remed-final ${complete?'on':''}`}><b>{finalCopy?'DEMO COMPLETE — EXAMPLE CHECKS PASSED ✓':complete?'EXAMPLE CHECKS PASSED':'AWAITING VERIFICATION'}</b><span>{finalCopy?'Illustrative checks · no external CI connected':'Example only · no repository change made'}</span></div>
       </section>
     </div>
