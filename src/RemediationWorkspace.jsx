@@ -57,6 +57,16 @@ export default function RemediationWorkspace(){
           <div className={`diff-note ${note?'show':''}`}><b>✓ Unsafe URI schemes rejected before rendering</b><span>Illustrative diff only · no upstream file changed</span></div>{beam&&<div className="diff-beam"/>}
         </div>
       </section>
+      <div className="font-mono text-sm p-4 bg-slate-950 rounded-md border border-slate-800">
+        <div className="text-rose-400 bg-rose-500/10 px-2 py-1">- import &#123; escapeHtml, unsafeRawHtml &#125; from '@/utils/sanitize';</div>
+        <div className="text-emerald-400 bg-emerald-500/10 px-2 py-1">+ import &#123; escapeHtml, safeUrlAttr, unsafeRawHtml &#125; from '@/utils/sanitize';</div>
+        <div className="text-slate-500 px-2 py-1 my-2">...</div>
+        <div className="text-rose-400 bg-rose-500/10 px-2 py-1">- &lt;a href="&#123;escapeHtml(a.link)&#125;" target="_blank" class="sa-title"&gt;&#123;escapeHtml(a.title)&#125;&lt;/a&gt;</div>
+        <div className="text-emerald-400 bg-emerald-500/10 px-2 py-1">+ const href = safeUrlAttr(a.link).toString();</div>
+        <div className="text-emerald-400 bg-emerald-500/10 px-2 py-1">+ const titleMarkup = href</div>
+        <div className="text-emerald-400 bg-emerald-500/10 px-2 py-1">+ &nbsp;&nbsp;? `&lt;a href="$&#123;href&#125;" target="_blank" class="sa-title"&gt;$&#123;escapeHtml(a.title)&#125;&lt;/a&gt;`</div>
+        <div className="text-emerald-400 bg-emerald-500/10 px-2 py-1">+ &nbsp;&nbsp;: `&lt;span class="sa-title sa-title-plain"&gt;$&#123;escapeHtml(a.title)&#125;&lt;/span&gt;`;</div>
+      </div>
       <section className={`remed-gates ${complete?'ok':''}`}>
         <div className="gates-heading">AUTOMATED SECURITY GATES <span>Illustrative checks · no connected production CI/CD</span></div>
         <div className="gate-pipeline">{GATE_NAMES.map((name,i)=><React.Fragment key={name}><div className={`remed-gate ${statuses[i]}`}><i>{statuses[i]==='done'?'✓':statuses[i]==='run'?'◌':i===0?'⌕':i===1?'◇':'▤'}</i><div><b>{name}</b><small>{gates[i]}</small></div></div>{i<GATE_NAMES.length-1&&<span className={`gate-arrow ${statuses[i]==='done'?'on':''}`}>→</span>}</React.Fragment>)}</div>
