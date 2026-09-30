@@ -32,31 +32,31 @@ export default function RemediationWorkspace(){
   useEffect(()=>clear,[clear]);
   const statuses=gates.map(x=>x==='✓ VERIFIED'?'done':x==='QUEUED'?'':'run');
   return <div className="remed-page">
-    <div className="remed-toolbar"><div><span className="remed-kicker">AUTONOMOUS SECURITY REMEDIATION · PROTOTYPE</span><h1>Remediation Workspace</h1><p>Illustrative patch workflow for the shared {DEMO_INCIDENT.id} demo scenario.</p></div><div className="remed-actions"><button onClick={run}>▶ Run remediation demo</button><button className="remed-reset" onClick={reset}>Reset</button></div></div>
-    <div className="remed-nav"><div className="remed-brand"><b>SENTRY</b><span>Autonomous Security Remediation</span></div><span className="remed-nav-tab">Security Assessment</span><span className="remed-nav-tab selected">Remediation Workspace</span><span className="remed-project">Project <b>{'Sentry demo application'}</b></span><span className={`remed-badge ${complete?'complete':''}`}><i/>{complete?'DEMO COMPLETE':'DEMO READY'}</span></div>
+    <div className="remed-toolbar"><div><span className="remed-kicker">AUTONOMOUS SECURITY REMEDIATION · PROTOTYPE</span><h1>Remediation Workspace</h1><p>Illustrative patch workflow for World Monitor · synthetic source demo.</p></div><div className="remed-actions"><button onClick={run}>▶ Run remediation demo</button><button className="remed-reset" onClick={reset}>Reset</button></div></div>
+    <div className="remed-nav"><div className="remed-brand"><b>SENTRY</b><span>Autonomous Security Remediation</span></div><span className="remed-nav-tab">Security Assessment</span><span className="remed-nav-tab selected">Remediation Workspace</span><span className="remed-project">Project <b>{'koala73/worldmonitor'}</b></span><span className={`remed-badge ${complete?'complete':''}`}><i/>{complete?'DEMO COMPLETE':'DEMO READY'}</span></div>
     <div className="remed-content">
       <section className={`remed-stage ${complete?'passed':''}`}>
         <div className={`remed-layer ${pr?'hidden':''}`}>
           <div className="remed-eyebrow">△ &nbsp; SYNTHETIC DEMO · NOT A VERIFIED REPOSITORY FINDING</div>
-          <div className="remed-vuln"><h2>{DEMO_INCIDENT.vector} <span>—</span> {DEMO_INCIDENT.method} {DEMO_INCIDENT.endpoint}</h2><div className="remed-chips"><span className="critical">Severity <b>{DEMO_INCIDENT.severity}</b></span><span>CWE <b>CWE-89 · EXAMPLE</b></span><span className="auto">Status <b>Illustrative patch</b></span></div></div>
+          <div className="remed-vuln"><h2>CVE-2026-X: Unauthenticated API Exposure on /api/v1/ship-tracking</h2><div className="remed-chips"><span className="critical">Severity <b>{DEMO_INCIDENT.severity}</b></span><span>Target <b>World Monitor · DEMO</b></span><span className="auto">Status <b>Illustrative patch</b></span></div></div>
           <div className="remed-progress-line"><span><em>Semgrep AST Engine</em> — Synthesizing Patch...</span><b>{progress}%</b></div><div className="remed-progress"><i style={{width:`${progress}%`}}/></div>
           <div className="remed-steps">{['Vulnerability Located','Data Flow Analyzed','Patch Being Synthesized','Security Validation','Pull Request Generation'].map((x,i)=><span className={steps[i]} key={x}><i>{steps[i]==='done'?'✓':steps[i]==='act'?'●':'○'}</i>{x}</span>)}</div>
         </div>
         <div className={`remed-layer ${pr?'':'hidden'}`}>
           <div className="pr-header"><span className="pr-icon">✓</span><h2>Sentry Bot prepared an example patch <small>{DEMO_INCIDENT.id}</small></h2><span className="remed-badge complete"><i/>EXAMPLE PATCH</span></div>
-          <div className="pr-title">example: parameterize the simulated query input</div>
+          <div className="pr-title">example: require authentication and limit ship-tracking requests</div>
           <div className="pr-meta"><b><i className="bot-icon">S</i> Sentry Bot</b><span className="purple-pill">Automated Security Remediation</span><span>Example diff · no file changed</span><span><strong className="add">+12</strong> &nbsp;<strong className="del">−8</strong></span><code>{`demo/${DEMO_INCIDENT.id} → review only`}</code><span>illustrative preview · no repository change</span></div>
         </div>
       </section>
       <section className="remed-diff">
-        <div className="diff-head"><b>Illustrative query handler · not upstream source</b><span>+12 &nbsp; −8</span><small>Example patch</small></div><div className="diff-hunk">@@ demo patch · parameterized query</div>
+        <div className="diff-head"><b>Illustrative route patch · not upstream source</b><span>+1 &nbsp; −1</span><small>Example patch</small></div><div className="diff-hunk">@@ /api/v1/ship-tracking · add auth and rate limiting</div>
         <div className="diff-code">
-          <div className="diff-row context"><span>38</span><span>38</span><b></b><code><i>def</i> <em>query_intelligence</em>():</code></div>
-          <div className="diff-row context"><span>39</span><span>39</span><b></b><code>    queryInput = request.args.<em>get</em>(<mark>"query"</mark>, <mark>""</mark>)</code></div><div className="diff-gap"/>
-          {[['40',"    query = \"SELECT * FROM intelligence WHERE content LIKE '%\" + queryInput + \"%'\""],['41','    db.execute(query)']].map(([n,t],i)=><div key={n} className={`diff-row removed ${removed>i?'show':''}`}><span>{n}</span><span></span><b>−</b><code>{t}</code></div>)}
-          {[['40','    query = "SELECT * FROM intelligence WHERE content LIKE ?"'],['41','    db.execute(query, [f"%{queryInput}%"])']].map(([n,t],i)=><div key={n} className={`diff-row inserted ${added>i?'show':''}`}><span></span><span>{n}</span><b>+</b><code>{t}</code></div>)}
-          <div className="diff-gap"/><div className="diff-row context"><span>42</span><span>42</span><b></b><code>    <i>return</i> <em>jsonify</em>(db.<em>fetchall</em>())</code></div>
-          <div className={`diff-note ${note?'show':''}`}><b>✓ Example parameterized query</b><span>Demonstrates a safer query pattern; not an upstream patch</span></div>{beam&&<div className="diff-beam"/>}
+          <div className="diff-row context"><span>38</span><span>38</span><b></b><code>router.<em>get</em>(<mark>'/ship-tracking'</mark>,</code></div>
+          <div className="diff-row context"><span>39</span><span>39</span><b></b><code>  trackingController.getShipData);</code></div><div className="diff-gap"/>
+          {[['40',"router.get('/ship-tracking', trackingController.getShipData);"]].map(([n,t],i)=><div key={n} className={`diff-row removed ${removed>i?'show':''}`}><span>{n}</span><span></span><b>−</b><code>{t}</code></div>)}
+          {[['40',"router.get('/ship-tracking', requireAuth, rateLimiter({ max: 50 }), trackingController.getShipData);"]].map(([n,t],i)=><div key={n} className={`diff-row inserted ${added>i?'show':''}`}><span></span><span>{n}</span><b>+</b><code>{t}</code></div>)}
+          <div className="diff-gap"/><div className="diff-row context"><span>41</span><span>41</span><b></b><code><i>// synthetic World Monitor remediation example</i></code></div>
+          <div className={`diff-note ${note?'show':''}`}><b>✓ Authentication and rate limits added</b><span>Illustrative diff only · no upstream file changed</span></div>{beam&&<div className="diff-beam"/>}
         </div>
       </section>
       <section className={`remed-gates ${complete?'ok':''}`}>
