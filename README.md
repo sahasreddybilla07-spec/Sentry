@@ -90,9 +90,9 @@ Dynamically graphs role combinations to expose exactly how standard users could 
 - Real-time network & API call monitoring
 
 ### 🧠 AI Security & Intelligence
-- NeMo Guardrails (Semantic Shielding)
-- LLM-based Patch Generation
-- ML-based Attack Vector Forecasting
+- NeMo Guardrails (Semantic Shielding & Prompt Injection Defense)
+- Semgrep AST Engine (Autonomous Code Patch Synthesis)
+- AWS SageMaker & XGBoost (ML-based Attack Vector Forecasting)
 
 ### 🧬 Isolation & Sandboxing
 - Kubernetes
