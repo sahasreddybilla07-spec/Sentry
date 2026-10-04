@@ -423,6 +423,25 @@ The result moves security teams from **reacting to incidents** toward **predicti
 
 ## 💻 Local Installation & Setup
 
+### Run the source assessment workspace
+
+From the repository root, install the Sentry dependencies and start the assessment API:
+
+```bash
+cd Sentry
+npm install
+npm run server
+```
+
+In a second terminal, start the development UI:
+
+```bash
+cd Sentry
+npm run dev
+```
+
+The development server proxies `/api` requests to the assessment service. For a production-style local run, build the UI with `npm run build` and start `npm run server`; it serves the built UI and assessment API from the same origin.
+
 ### Prerequisites
 
 Make sure the following are installed:

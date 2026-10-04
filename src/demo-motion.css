@@ -1,0 +1,49 @@
+/* Shared motion language for the product demonstration. */
+.content>main:not(.predictive-page):not(.impact-page){animation:demoPageIn .48s cubic-bezier(.2,.75,.25,1) both}
+.content .panel,.content .stat,.content .graph-shell,.content .overview-impact,.content .tele-metrics>div,.content .tele-table-card,.content .threat-panel{animation:demoCardIn .52s cubic-bezier(.2,.75,.25,1) both;animation-delay:calc(var(--card-index, 0) * 55ms)}
+.content button{transition:transform .18s ease,box-shadow .2s ease,border-color .2s ease,background-color .2s ease,color .2s ease}
+.content button:hover:not(:disabled){transform:translateY(-1px)}
+.content button:active:not(:disabled){transform:translateY(0) scale(.985)}
+.graph-shell{overflow:hidden}
+.knowledge-map{position:relative;height:490px;overflow:hidden;border:1px solid var(--line,#29383d);border-radius:9px;background:radial-gradient(circle at 50% 51%,rgba(94,190,145,.08),transparent 25%),radial-gradient(#304047 1px,transparent 1px);background-size:auto,22px 22px}
+.knowledge-links{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.graph-edge{fill:none;stroke:#5f8373;stroke-width:1.5;stroke-dasharray:5 7;opacity:.58;animation:edgeFlow 20s linear infinite}
+.risk-edge{stroke:#e7a45a;opacity:.78;stroke-dasharray:4 6}
+.knowledge-node{position:absolute;z-index:1;display:flex;flex-direction:column;gap:6px;width:19%;min-height:76px;padding:11px 13px;text-align:left;border-radius:9px;border:1px solid #354a47;background:linear-gradient(145deg,#172522,#121a20);color:#e4eee8;box-shadow:0 9px 22px #0003;transform:translate(-50%,-50%);animation:nodePop .6s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--node-index, 0) * 65ms)}
+.knowledge-node:hover{z-index:3;border-color:#6fc69a;box-shadow:0 10px 28px #0005,0 0 0 3px #60c28a18}
+.knowledge-node small{font-size:8px;letter-spacing:.65px;color:#91b7a0;text-transform:uppercase}
+.knowledge-node b{font-size:11px;line-height:1.3}
+.knowledge-node span{font-size:9px;color:#90a29a;line-height:1.3}
+.asset-node.critical{border-color:#7b6243}.finding-node{min-height:65px;border-color:#75464a;background:linear-gradient(145deg,#2a2022,#191a20)}
+.finding-node small{color:#f0a2a0}.finding-node b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.graph-hub{position:absolute;z-index:2;transform:translate(-50%,-50%);display:flex;align-items:center;gap:7px;padding:10px 13px;border:1px solid #54866a;border-radius:999px;background:#14231d;box-shadow:0 0 0 7px #61c28a0b,0 0 30px #61c28a22;color:#dff5e6;animation:hubBreathe 3.5s ease-in-out infinite}
+.graph-hub i{font-style:normal;color:#80d5a1;font-size:16px}.graph-hub b{font-size:8px;letter-spacing:.7px}.graph-hub small{font-size:7px;color:#91b19e}
+.knowledge-legend{display:flex;align-items:center;gap:20px;flex-wrap:wrap;padding:13px 16px;color:#9aaba4;font-size:9px}
+.knowledge-legend span{display:flex;align-items:center;gap:7px}.knowledge-legend i{width:8px;height:8px;border-radius:50%;display:inline-block}.legend-asset{background:#73c791}.legend-finding{background:#e57e79}.legend-path{background:#d5a45c}.knowledge-legend .legend-interact{margin-left:auto;color:#788b83}
+[data-theme="light"] .knowledge-map{background:radial-gradient(circle at 50% 51%,rgba(54,148,97,.07),transparent 25%),radial-gradient(#d4e3da 1px,transparent 1px);background-size:auto,22px 22px;border-color:#dce5df}
+[data-theme="light"] .graph-edge{stroke:#5b9476}.knowledge-node{color:#e4eee8}
+[data-theme="light"] .knowledge-node{background:linear-gradient(145deg,#fff,#f4f9f6);border-color:#cdded3;color:#244439;box-shadow:0 8px 22px #244a3712}
+[data-theme="light"] .knowledge-node small{color:#54806a}[data-theme="light"] .knowledge-node span{color:#687d73}[data-theme="light"] .finding-node{background:linear-gradient(145deg,#fff8f7,#fff);border-color:#edc8c7}[data-theme="light"] .finding-node small{color:#bd5a59}[data-theme="light"] .graph-hub{background:#e8f5eb;color:#315d44;box-shadow:0 0 0 7px #61c28a0b,0 0 25px #61c28a25}
+@keyframes demoPageIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+@keyframes demoCardIn{from{opacity:0;transform:translateY(11px)}to{opacity:1;transform:translateY(0)}}
+@keyframes nodePop{from{opacity:0;filter:blur(3px)}to{opacity:1;filter:blur(0)}}
+@keyframes edgeFlow{to{stroke-dashoffset:-120}}
+@keyframes hubBreathe{0%,100%{box-shadow:0 0 0 7px #61c28a0b,0 0 22px #61c28a1b}50%{box-shadow:0 0 0 11px #61c28a08,0 0 32px #61c28a35}}
+@media(max-width:900px){.knowledge-map{height:570px}.knowledge-node{width:27%;padding:9px}.knowledge-node b{font-size:10px}.knowledge-node span{font-size:8px}}
+@media(max-width:600px){.knowledge-map{height:680px}.knowledge-node{width:30%;min-height:70px;padding:8px}.knowledge-node small{font-size:7px}.knowledge-node b{font-size:9px}.knowledge-node span{font-size:7px}.graph-hub{padding:8px 10px}.graph-hub b{font-size:7px}.knowledge-legend{gap:10px;font-size:8px}.knowledge-legend .legend-interact{margin-left:0}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}.login-transition{animation-duration:2s!important}}
+.login-transition{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:11px;overflow:hidden;color:#eef7f0;background:radial-gradient(ellipse at center,rgba(74,126,51,.28),transparent 38%),#0b1110;animation:transitionReveal 2s cubic-bezier(.75,0,.2,1) both}
+.transition-logo{position:relative;z-index:2;display:grid;place-items:center;width:106px;height:106px;border:1px solid #78b76555;border-radius:30px;background:linear-gradient(145deg,#1c3020,#111c19);color:#a9d77a;box-shadow:0 0 55px #82bd5033;animation:logoArrive .8s cubic-bezier(.2,.85,.25,1) both}
+.transition-logo svg{filter:drop-shadow(0 0 12px #a4dc75aa);animation:logoTurn 1.2s ease-out both}
+.login-transition>strong{font-size:19px;letter-spacing:5px;animation:transitionText .5s .2s both}
+.login-transition>span{font-size:9px;letter-spacing:1.5px;color:#99b59b;animation:transitionText .5s .3s both}
+.login-transition>i{width:102px;height:2px;margin-top:10px;overflow:hidden;background:#29382b}
+.login-transition>i b{display:block;width:42%;height:100%;background:#a5d479;box-shadow:0 0 10px #a5d479;animation:progressSweep .8s .14s ease-in-out both}
+.transition-orbit{position:absolute;width:210px;height:210px;border:1px solid #88bf6335;border-radius:50%;animation:orbitExpand 1s ease-out both}
+.orbit-b{width:300px;height:300px;border-color:#88bf631c;animation-delay:.12s}
+@keyframes transitionReveal{0%,82%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden;pointer-events:none}}
+@keyframes logoArrive{from{opacity:0;transform:translateY(18px) scale(.72);filter:blur(5px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+@keyframes logoTurn{from{transform:rotate(-100deg)}to{transform:rotate(0)}}
+@keyframes transitionText{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+@keyframes progressSweep{from{transform:translateX(-120%)}to{transform:translateX(260%)}}
+@keyframes orbitExpand{from{opacity:0;transform:scale(.65)}45%{opacity:.8}to{opacity:.2;transform:scale(1.18)}}
